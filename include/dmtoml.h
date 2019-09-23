@@ -22,18 +22,6 @@
 #ifndef __DMTOML_H_INCLUDE__
 #define __DMTOML_H_INCLUDE__
 
-#include "dmos.h"
+#include "cpptoml.h"
 
-class Idmtoml
-{
-public:
-    virtual ~Idmtoml(){}
-    virtual void DMAPI Release(void) = 0;
-	
-    virtual void DMAPI Test(void) = 0;
-};
-
-Idmtoml* DMAPI dmtomlGetModule();
-
-typedef Idmtoml* (DMAPI* PFN_dmtomlGetModule)();
 #endif // __DMTOML_H_INCLUDE__
