@@ -24,4 +24,5 @@
 
 #include "cpptoml.h"
 
+namespace dmtoml = cpptoml;
 #endif // __DMTOML_H_INCLUDE__
