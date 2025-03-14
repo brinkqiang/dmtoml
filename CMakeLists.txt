@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.2)
+
+cmake_minimum_required(VERSION 3.21)
 
 PROJECT(dmtoml)
 
@@ -7,30 +8,15 @@ INCLUDE(cmake/ModuleImport.cmake)
 INCLUDE(cmake/ModuleCompileOptions.cmake)
 ModuleSetCompileOptions()
 
-SET(DMTOML_VERSION_MAJOR "1")
-SET(DMTOML_VERSION_MINOR "0")
-SET(DMTOML_VERSION_PATCH "1")
-SET(DMTOML_VERSION "${DMTOML_VERSION_MAJOR}.${DMTOML_VERSION_MINOR}.${DMTOML_VERSION_PATCH}")
+if ( MSVC )
+    set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME} )
+endif()
 
-MESSAGE(STATUS "VERSION: ${DMTOML_VERSION}")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/std:c++17>")
 
-OPTION(USE_DMTOML "use dmtoml" OFF)
+InterfaceImport("dmtoml" "include" "")
 
-ExeImport("examples" "")
-
-#ADD_CUSTOM_COMMAND(
-#TARGET dmtomltest
-#PRE_BUILD
-#COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#${CMAKE_CURRENT_SOURCE_DIR}/config/test.csv
-#$<TARGET_FILE_DIR:dmtomltest>
-#)
-
-#INSTALL(DIRECTORY include/ DESTINATION include)
-#INSTALL(TARGETS dmtoml
-#        RUNTIME DESTINATION bin
-#        LIBRARY DESTINATION lib
-#        ARCHIVE DESTINATION lib)
-
-#SET(DMTOML_LIBS "dmtoml")
-#MARK_AS_ADVANCED(${DMTOML_LIBS})
+if (PROJECT_IS_TOP_LEVEL)
+    ExeImport("examples" "dmtoml")
+endif(PROJECT_IS_TOP_LEVEL)
